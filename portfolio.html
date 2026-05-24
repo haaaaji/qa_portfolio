@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>하지연의 포트폴리오</title>
+    
+    <!-- Font Awesome 아이콘 불러오기 (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        /* 기본 스타일 및 웹폰트 */
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            line-height: 1.7;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            background-color: #f4f7f6;
+        }
+
+        /* 헤더 스타일 (아이콘 포함) */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 15px; color: #1a1a1a; }
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            color: #666;
+            font-size: 0.95rem;
+        }
+        .contact-info span { display: flex; align-items: center; gap: 8px; }
+        .contact-info i { color: #3498db; }
+
+        /* 섹션 공통 스타일 */
+        section { margin-bottom: 50px; }
+        h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        h2 i { color: #3498db; }
+
+        /* 카드 공통 스타일 (경력 & 교육) */
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border-left: 5px solid #e0e0e0;
+            transition: border-color 0.3s ease;
+        }
+        .card:hover { border-left-color: #3498db; }
+
+        /* 토글 버튼 스타일 */
+        .toggle-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 auto 30px auto;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        .toggle-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        .toggle-btn i { transition: transform 0.3s ease; }
+        .toggle-btn.active i { transform: rotate(180deg); }
+
+        /* 접히는 영역 공통 스타일 (처음엔 숨김) */
+        .fold-content {
+            display: none;
+            animation: slideDown 0.5s ease-out;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 직무 및 교육 제목 스타일 */
+        .card-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        
+        /* 교육 전용 헤더 레이아웃 (좌우 정렬) */
+        .edu-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .edu-inst {
+            font-size: 1rem;
+            color: #7f8c8d;
+            font-weight: 400;
+            margin-left: 8px;
+        }
+        .edu-date {
+            font-size: 1.05rem;
+            color: #3498db;
+            font-weight: 600;
+            background-color: #e1f5fe;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .task-group { margin-bottom: 18px; }
+        .task-title {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* 리스트 아이콘 (체크마크) */
+        ul { list-style: none; padding-left: 5px; margin: 0; }
+        li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        li::before {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: #2ecc71;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>하지연</h1>
+        <div class="contact-info">
+            <span><i class="fas fa-phone"></i> 010-8975-1583</span>
+            <span><i class="fas fa-envelope"></i> hajix0x@naver.com</span>
+            <span><i class="fas fa-briefcase"></i> QA & 테스트 엔지니어</span>
+        </div>
+    </header>
+
+    <section>
+        <h2><i class="fas fa-user-tie"></i>소개 (About Me)</h2>
+        <p>인프라 검증부터 프론트엔드/백엔드 서비스 품질, 자동화 테스트까지 폭넓은 QA 전문성을 보유한 엔지니어입니다. 문제의 근본 원인을 분석하고, 효율적인 테스트 환경을 구축하여 서비스의 안정성과 가치를 높이는 데 기여합니다.</p>
+    </section>
+
+    <!-- 경력 섹션 -->
+    <section>
+        <h2><i class="fas fa-history"></i>경력 및 프로젝트 (Experience)</h2>
+        
+        <!-- 경력 토글 버튼 -->
+        <button id="toggleExpBtn" class="toggle-btn">
+            <span>경력사항 상세 보기</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+
+        <div id="experience-section" class="fold-content">
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="job-title">ZTNA 기반 보안 인프라 검증 및 네트워크 품질 보증(QA) 체계 고도화</div>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">1. VMware ESXi 기반의 가상화 테스트 인프라 설계 및 멀티 OS 환경 구축</div>
+                    <ul>
+                        <li>Linux/Windows 등 이기종 OS 환경의 가상 머신(VM) 프로비저닝 및 테스트베드 최적화 운영</li>
+                        <li>스냅샷 및 템플릿 활용을 통한 테스트 환경 복구 시간 단축 및 환경 격리 기반의 독립적 검증 수행</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">2. 네트워크 패킷 분석 및 보안 무결성 검증을 통한 심층 트러블슈팅</div>
+                    <ul>
+                        <li>Wireshark 기반 패킷 분석으로 네트워크 지연 및 통신 결함의 Root Cause 분석 및 해결 지원</li>
+                        <li>VPN 터널링 무결성 및 암호화 프로토콜 검증, VS Code 기반 로그 파싱을 통한 시스템 오류 진단</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">3. Locust 및 AWS 환경 기반의 대규모 분산 부하 테스트 및 성능 최적화</div>
+                    <ul>
+                        <li>대규모 트래픽 시나리오 설계를 통한 시스템 임계치 측정 및 인프라 병목 지점 식별</li>
+                        <li>성능 지표(TPS, Latency 등) 분석을 통한 서버 리소스 최적화 및 확장 가이드 제시</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">4. Full-Stack QA 커버리지 확보 및 엔드투엔드(E2E) 품질 검증 수행</div>
+                    <ul>
+                        <li>API 연동 정합성 및 DB 서버(MariaDB, PostgreSQL 등) 데이터 무결성 검증 프로세스 주도</li>
+                        <li>플랫폼(Desktop/Mobile)별 특성을 고려한 결함 분석 및 사용자 경험(UX/UI) 고도화 제안</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="job-title">XR 기반 실감형 솔루션 품질 보증 및 최적화</div>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">1. XR 콘텐츠 특화 시나리오 기반의 테스트 케이스 설계 및 최적화</div>
+                    <ul>
+                        <li>3D 환경 내 상호작용, 공간 인식 및 렌더링 성능 검증을 포함한 고품질 TC 작성</li>
+                        <li>요구사항 명세 분석을 통한 기기별 하드웨어 성능 및 예외 상황 대응 검증 설계</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">2. 산업·건축 시공용 XR 디지털 품질관리 솔루션 검증 및 모델링 리뷰</div>
+                    <ul>
+                        <li>3D 설계 모델링의 모바일 환경 최적화 상태 리뷰 및 실감형 데이터 정합성 검증</li>
+                        <li>건축 현장 맞춤형 모바일 테스트 수행을 통해 시공 품질 관리 프로세스의 디지털 전환 기여</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">3. 실감형 교육·전시 XR 솔루션 프로젝트 품질 보증(QA) 수행</div>
+                    <ul>
+                        <li>교육용 XR 콘텐츠의 학습 몰입도를 저해하는 인터랙션 오류 및 UI/UX 결함 집중 탐지</li>
+                        <li>대규모 트래픽이 발생하는 전시회 환경을 고려한 서비스 안정성 및 기기 호환성 테스트 주도</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">4. XR 기반 실시간 원격 협업 플랫폼의 성능 및 데이터 동기화 검증</div>
+                    <ul>
+                        <li>다중 접속 환경에서의 음성/영상 데이터 동기화 및 지연 시간 테스트 수행</li>
+                        <li>원격 사용자 간의 3D 에셋 공유 및 상호작용 기능의 안정성 확보를 위한 통합 테스트 완수</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="job-title">금융 솔루션 모니터링 및 시스템 고도화 (나이스평가정보)</div>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">1. Python 기반 UI 자동화 테스트 구축 및 데일리 모니터링 최적화</div>
+                    <ul>
+                        <li>나이스 지키미 및 제휴 사이트 대상 자동화 스크립트 도입으로 반복 테스트 공수 30% 절감</li>
+                        <li>일일 점검 프로세스 자동화를 통해 이슈 발견 시점 단축 및 리소스 효율성 극대화</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">2. mTworks를 활용한 모바일 앱 회귀 테스트(Regression Test) 자동화</div>
+                    <ul>
+                        <li>주요 시나리오별 자동화 스크립트 작성 및 다기종 디바이스 대상 데일리 모니터링 수행</li>
+                        <li>앱 업데이트 시 발생할 수 있는 결함 조기 발견 및 배포 안정성 확보</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">3. Jira/Redmine 기반의 데이터 중심 결함 관리</div>
+                    <ul>
+                        <li>결함 수명 주기 데이터 분석을 통한 병목 구간 식별 및 리포트 작성</li>
+                        <li>정량적 지표 기반의 주간/월간 리포트 작성을 통해 부서 간 원활한 의사결정 지원</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="job-title">금융 모바일 앱 품질 보증 및 테스트 프로세스 고도화 (키움증권 영웅문S 리뉴얼)</div>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">1. 요구사항 분석 기반의 테스트 케이서 설계 및 고도화</div>
+                    <ul>
+                        <li>서비스 기획서 및 명세 분석을 통해 예외 케이스를 포함한 기능/비기능 TC 작성</li>
+                        <li> 테스트 커버리지 분석을 통한 기존 TC 최적화 및 현행화 유지</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">2. AOS/iOS 멀티 플랫폼 대상 단계별 테스트(단위·통합·시스템) 수행</div>
+                    <ul>
+                        <li>각 OS 가이드라인 및 최신/하위 버전 호환성 등 플랫폼 특화 이슈 검증</li>
+                        <li>기능별 단위 테스트부터 서비스 전반의 시스템 테스트까지 단계별 검증으로 앱 서비스 품질 확보</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">3. Mantis 기반의 결함 라이프사이클 관리 및 정밀 이슈 리포팅</div>
+                    <ul>
+                        <li>결함의 재현 경로, 로그, 환경 정보 등을 포함한 체계적인 이슈 리포트 작성으로 수정 소요 시간 단축</li>
+                        <li>결함 심각도 및 우선순위 할당을 통한 효율적인 릴리즈 의사결정 지원</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="job-title">금융 솔루션 운영 및 서비스 품질 관리 고도화</div>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">1. 코스콤 CheckExpert 플랫폼 기반 실시간 금융 데이터 및 서비스 모니터링</div>
+                    <ul>
+                        <li>실시간 시세 데이터 및 주요 지표의 정상 가동 상태를 점검하여 서비스 가동률 유지</li>
+                        <li>장애 징후 선제적 포착 및 유관 부서 전파를 통한 서비스 중단 리스크 최소화</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">2. 거래소 시스템 신규 고도화 프로젝트 참여 및 사용자 요구사항 검증</div>
+                    <ul>
+                        <li>신규 개편 시스템의 기능 적합성 테스트 및 사용자 관점의 사용성 점검 수행</li>
+                        <li>고객 피드백 기반의 개선 요구사항을 분석하여 실제 시스템 반영을 위한 QA 프로세스 완수</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">3. 원격 기술 지원을 통한 고객 환경별 이슈 해결 및 기술 데스크 운영</div>
+                    <ul>
+                        <li>사용자 측면의 장애 상황을 원격으로 진단하고 신속한 트러블슈팅을 통해 서비스 연속성 보장</li>
+                        <li>복잡한 기술적 이슈를 고객 눈높이에 맞춰 설명하여 고객 만족도 및 신뢰도 향상</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">4. 글로벌 금융 시장 데이터 동기화 및 거래소별 휴장일 정보 정합성 관리</div>
+                    <ul>
+                        <li>국가별 거래소 데이터를 수집·검증하여 금융 캘린더의 데이터 무결성 확보</li>
+                        <li>정확한 휴장일 데이터 관리를 통해 시스템 자동 스케쥴링 오류 방지 및 운영 효율성 제고</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">5. 솔루션 결함 탐지 및 소프트웨어 품질 개선 프로세스 주도</div>
+                    <ul>
+                        <li>프로그램 내 잠재적 오류를 상시 검출하고, 수정 사항에 대한 회귀 테스트 수행</li>
+                        <li>반복되는 오류 패턴을 분석하여 근본적인 시스템 품질 향상 및 안정화에 기여</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div> 
+    </section>
+
+    <!-- 교육 및 대외활동 섹션 -->
+    <section>
+        <h2><i class="fas fa-graduation-cap"></i>교육 이수 (Education & Training)</h2>
+
+        <!-- 교육 토글 버튼 추가 -->
+        <button id="toggleEduBtn" class="toggle-btn">
+            <span>교육 이수사항 보기</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+
+        <div id="education-section" class="fold-content">
+            
+            <div class="card">
+                <div class="card-header edu-header-flex">
+                    <div class="job-title">
+                        소프트웨어 테스팅 전문가 양성과정
+                        <span class="edu-inst">| 영등포여성인력개발센터</span>
+                    </div>
+                    <div class="edu-date">2025. 08 ~ 2025. 10</div>
+                </div>
+                <ul>
+                    <li>소프트웨어 테스팅의 원리, 프로세스, V모델 등 이론 학습 및 테스트 케이스 작성 실습 수행</li>
+                    <li>엑셀 함수·피벗테이블 활용을 통한 데이터 관리 및 보고서 작성 역량 강화</li>
+                    <li>애자일 방법론 기반의 테스트 프로세스 및 리스크 분석, 결함 리포팅 실습</li>
+                    <li>테스트 결과 보고 및 품질관리 절차 전반에 대한 실무 중심 학습</li>
+                    <li>ISTQB 국제 표준에 따른 자격증 대비 교육을 통해 체계적 테스트 지식 확보</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header edu-header-flex">
+                    <div class="job-title">
+                        Jmeter 기반 성능 테스트 실무 기술 교육
+                        <span class="edu-inst">| STA테스팅컨설팅</span>
+                    </div>
+                    <div class="edu-date">2025. 04 ~ 2025. 04</div>
+                </div>
+                <ul>
+                    <li>JMeter를 활용한 성능 테스트 계획 수립 및 시나리오 실행 실습 진행</li>
+                    <li>테스트 결과 분석 및 성능 테스트 보고서 작성 역량 강화</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header edu-header-flex">
+                    <div class="job-title">
+                        소프트웨어 품질향상을 위한 프로세스 관리 실무
+                        <span class="edu-inst">| 한국소프트웨어산업협회</span>
+                    </div>
+                    <div class="edu-date">2024. 04 ~ 2024. 04</div>
+                </div>
+                <ul>
+                    <li>IT 제품 및 서비스의 지속적 제공 역량 강화를 위한 프로세스 수립 및 개선 수행</li>
+                    <li>관련 정책, 절차, 지침, 지표 등을 체계적으로 개발하여 품질관리 기반 마련</li>
+                    <li>안정적 서비스 운영을 위한 IT 관리 및 지속 개선 능력 확보</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header edu-header-flex">
+                    <div class="job-title">
+                        파이썬 통계분석 초급과정
+                        <span class="edu-inst">| 마소캠퍼스</span>
+                    </div>
+                    <div class="edu-date">2023. 07 ~ 2023. 07</div>
+                </div>
+                <ul>
+                    <li>Python Pandas를 활용한 데이터프레임 생성, 탐색, 자료형 변환 및 결측치 처리 이론 학습</li>
+                    <li>실습 중심의 데이터 테이블 분석 및 전처리 기술 향상</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header edu-header-flex">
+                    <div class="job-title">
+                        파이썬 기반 데이터 전처리 실무
+                        <span class="edu-inst">| 마소캠퍼스</span>
+                    </div>
+                    <div class="edu-date">2022. 05 ~ 2022. 05</div>
+                </div>
+                <ul>
+                    <li>파이썬 전처리 개발환경 이해 및 프로그래밍 실습 (pandas, numpy 오픈소스 라이브러리 실습)</li>
+                </ul>
+            </div>
+
+        </div> <!-- education-section 끝 -->
+    </section>
+
+    <!-- 자바스크립트: 두 개의 버튼이 각각 독립적으로 작동하도록 설정 -->
+    <script>
+        // 1. 경력사항 토글
+        const expBtn = document.getElementById('toggleExpBtn');
+        const expBtnText = expBtn.querySelector('span');
+        const expSection = document.getElementById('experience-section');
+
+        expBtn.addEventListener('click', function() {
+            expBtn.classList.toggle('active');
+            if (expSection.style.display === 'none' || expSection.style.display === '') {
+                expSection.style.display = 'block';
+                expBtnText.innerHTML = '경력사항 상세 닫기';
+            } else {
+                expSection.style.display = 'none';
+                expBtnText.innerHTML = '경력사항 상세 보기';
+            }
+        });
+
+        // 2. 교육 이수사항 토글
+        const eduBtn = document.getElementById('toggleEduBtn');
+        const eduBtnText = eduBtn.querySelector('span');
+        const eduSection = document.getElementById('education-section');
+
+        eduBtn.addEventListener('click', function() {
+            eduBtn.classList.toggle('active');
+            if (eduSection.style.display === 'none' || eduSection.style.display === '') {
+                eduSection.style.display = 'block';
+                eduBtnText.innerHTML = '교육 이수사항 닫기';
+            } else {
+                eduSection.style.display = 'none';
+                eduBtnText.innerHTML = '교육 이수사항 보기';
+            }
+        });
+    </script>
+</body>
+</html>
