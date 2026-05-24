@@ -3,152 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>하지연의 포트폴리오</title>
+    <title>홍길동의 QA 엔지니어 포트폴리오</title>
     
-    <!-- Font Awesome 아이콘 불러오기 (CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
-        /* 기본 스타일 및 웹폰트 */
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
-        body {
-            font-family: 'Pretendard', sans-serif;
-            line-height: 1.7;
-            color: #333;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 50px 20px;
-            background-color: #f4f7f6;
+        /* 세련된 다크 테마 색상 정의 */
+        :root {
+            --bg-color: #0f172a;        /* 깊은 다크 네이비 배경 */
+            --card-bg: #1e293b;         /* 어두운 블루그레이 카드 배경 */
+            --text-main: #f8fafc;       /* 밝은 메인 글씨 */
+            --text-sub: #94a3b8;        /* 차분한 서브 글씨 */
+            --point-color: #38bdf8;      /* 스카이 블루 네온 포인트 */
+            --accent-color: #34d399;     /* 민트 그린 강조색 */
+            --border-color: #334155;
         }
 
-        /* 헤더 스타일 (아이콘 포함) */
+        body {
+            font-family: 'Pretendard', sans-serif;
+            line-height: 1.8;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* 헤더 디자인 */
         header {
             text-align: center;
-            margin-bottom: 50px;
-            padding-bottom: 30px;
-            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
         }
-        h1 { font-size: 2.5rem; margin-bottom: 15px; color: #1a1a1a; }
+        h1 { 
+            font-size: 2.8rem; 
+            font-weight: 800; 
+            margin-bottom: 15px; 
+            color: var(--text-main); 
+            letter-spacing: -0.05rem;
+        }
         .contact-info {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 20px;
-            color: #666;
+            gap: 24px;
+            color: var(--text-sub);
             font-size: 0.95rem;
         }
         .contact-info span { display: flex; align-items: center; gap: 8px; }
-        .contact-info i { color: #3498db; }
+        .contact-info i { color: var(--point-color); }
 
-        /* 섹션 공통 스타일 */
-        section { margin-bottom: 50px; }
+        /* 섹션 공통 */
+        section { margin-bottom: 60px; }
         h2 {
             font-size: 1.8rem;
-            color: #2c3e50;
-            margin-bottom: 25px;
+            color: var(--text-main);
+            margin-bottom: 30px;
             display: flex;
             align-items: center;
             gap: 12px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
         }
-        h2 i { color: #3498db; }
+        h2 i { color: var(--point-color); }
 
-        /* 카드 공통 스타일 (경력 & 교육) */
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-            border-left: 5px solid #e0e0e0;
-            transition: border-color 0.3s ease;
-        }
-        .card:hover { border-left-color: #3498db; }
-
-        /* 토글 버튼 스타일 */
-        .toggle-btn {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 14px 28px;
+        /* 소개 글 변경 */
+        .about-text {
             font-size: 1.1rem;
+            color: var(--text-sub);
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* 🚀 핵심 역량(Skills) 태그 디자인 */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .skill-tag {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--point-color);
+            padding: 8px 18px;
+            font-size: 0.95rem;
             font-weight: 600;
+            border-radius: 50px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .skill-tag:hover {
+            background: var(--point-color);
+            color: var(--bg-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* 📇 카드 디자인 (경력 & 교육) */
+        .card {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .card:hover { 
+            border-top-color: var(--point-color);
+            transform: translateY(-2px);
+        }
+
+        /* 토글 버튼 디자인 고도화 */
+        .toggle-btn {
+            background: linear-gradient(135deg, #0284c7, #38bdf8);
+            color: var(--bg-color);
+            font-color: #0f172a;
+            font-weight: 700;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 10px;
-            margin: 0 auto 30px auto;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            margin: 0 auto 40px auto;
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4);
         }
         .toggle-btn:hover {
-            background-color: #2980b9;
             transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(56, 189, 248, 0.6);
         }
         .toggle-btn i { transition: transform 0.3s ease; }
         .toggle-btn.active i { transform: rotate(180deg); }
 
-        /* 접히는 영역 공통 스타일 (처음엔 숨김) */
+        /* 접히는 영역 */
         .fold-content {
             display: none;
-            animation: slideDown 0.5s ease-out;
-        }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 직무 및 교육 제목 스타일 */
+        /* 카드 헤더 */
         .card-header {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
+            margin-bottom: 25px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border-color);
         }
         .job-title {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             font-weight: 700;
-            color: #1a1a1a;
+            color: var(--text-main);
         }
         
-        /* 교육 전용 헤더 레이아웃 (좌우 정렬) */
+        /* 교육 레이아웃 */
         .edu-header-flex {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
         }
         .edu-inst {
-            font-size: 1rem;
-            color: #7f8c8d;
+            font-size: 1.05rem;
+            color: var(--text-sub);
             font-weight: 400;
             margin-left: 8px;
         }
         .edu-date {
-            font-size: 1.05rem;
-            color: #3498db;
+            font-size: 0.95rem;
+            color: var(--point-color);
             font-weight: 600;
-            background-color: #e1f5fe;
-            padding: 4px 12px;
+            background-color: rgba(56, 189, 248, 0.15);
+            padding: 6px 16px;
             border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
         }
 
-        .task-group { margin-bottom: 18px; }
+        .task-group { margin-bottom: 22px; }
         .task-title {
-            font-weight: 600;
-            color: #34495e;
-            margin-bottom: 8px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 10px;
             font-size: 1.1rem;
         }
 
-        /* 리스트 아이콘 (체크마크) */
+        /* 리스트 스타일 */
         ul { list-style: none; padding-left: 5px; margin: 0; }
         li {
             position: relative;
-            padding-left: 30px;
-            margin-bottom: 10px;
-            color: #555;
+            padding-left: 28px;
+            margin-bottom: 12px;
+            color: var(--text-sub);
         }
         li::before {
             content: "\f058";
@@ -156,33 +214,48 @@
             font-weight: 900;
             position: absolute;
             left: 0;
-            top: 2px;
-            color: #2ecc71;
+            top: 3px;
+            color: var(--accent-color);
         }
 
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>하지연</h1>
+    <header data-aos="fade-down" data-aos-duration="1000">
+        <h1>홍길동</h1>
         <div class="contact-info">
-            <span><i class="fas fa-phone"></i> 010-8975-1583</span>
-            <span><i class="fas fa-envelope"></i> hajix0x@naver.com</span>
+            <span><i class="fas fa-phone"></i> 010-1234-5678</span>
+            <span><i class="fas fa-envelope"></i> email@example.com</span>
             <span><i class="fas fa-briefcase"></i> QA & 테스트 엔지니어</span>
         </div>
     </header>
 
-    <section>
+    <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-user-tie"></i>소개 (About Me)</h2>
-        <p>인프라 검증부터 프론트엔드/백엔드 서비스 품질, 자동화 테스트까지 폭넓은 QA 전문성을 보유한 엔지니어입니다. 문제의 근본 원인을 분석하고, 효율적인 테스트 환경을 구축하여 서비스의 안정성과 가치를 높이는 데 기여합니다.</p>
+        <div class="about-text">
+            인프라 검증부터 프론트엔드/백엔드 서비스 품질, 자동화 테스트까지 폭넓은 QA 전문성을 보유한 엔지니어입니다. 문제의 근본 원인을 분석하고, 효율적인 테스트 환경을 구축하여 서비스의 안정성과 가치를 높이는 데 기여합니다.
+        </div>
     </section>
 
-    <!-- 경력 섹션 -->
-    <section>
+    <section data-aos="fade-up" data-aos-duration="1000">
+        <h2><i class="fas fa-laptop-code"></i>핵심 역량 (Core Skills)</h2>
+        <div class="skills-container">
+            <span class="skill-tag">Jira</span>
+            <span class="skill-tag">Redmine</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">VMware ESXi</span>
+            <span class="skill-tag">Wireshark</span>
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">iPerf3</span>
+            <span class="skill-tag">MariaDB</span>
+            <span class="skill-tag">Cleopatra (클레오파트라)</span>
+        </div>
+    </section>
+
+    <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-history"></i>경력 및 프로젝트 (Experience)</h2>
         
-        <!-- 경력 토글 버튼 -->
         <button id="toggleExpBtn" class="toggle-btn">
             <span>경력사항 상세 보기</span>
             <i class="fas fa-chevron-down"></i>
@@ -190,7 +263,7 @@
 
         <div id="experience-section" class="fold-content">
             
-            <div class="card">
+            <div class="card" data-aos="fade-up">
                 <div class="card-header">
                     <div class="job-title">ZTNA 기반 보안 인프라 검증 및 네트워크 품질 보증(QA) 체계 고도화</div>
                 </div>
@@ -224,7 +297,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" data-aos="fade-up">
                 <div class="card-header">
                     <div class="job-title">XR 기반 실감형 솔루션 품질 보증 및 최적화</div>
                 </div>
@@ -258,7 +331,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" data-aos="fade-up">
                 <div class="card-header">
                     <div class="job-title">금융 솔루션 모니터링 및 시스템 고도화 (나이스평가정보)</div>
                 </div>
@@ -285,7 +358,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" data-aos="fade-up">
                 <div class="card-header">
                     <div class="job-title">금융 모바일 앱 품질 보증 및 테스트 프로세스 고도화 (키움증권 영웅문S 리뉴얼)</div>
                 </div>
@@ -293,7 +366,7 @@
                     <div class="task-title">1. 요구사항 분석 기반의 테스트 케이서 설계 및 고도화</div>
                     <ul>
                         <li>서비스 기획서 및 명세 분석을 통해 예외 케이스를 포함한 기능/비기능 TC 작성</li>
-                        <li> 테스트 커버리지 분석을 통한 기존 TC 최적화 및 현행화 유지</li>
+                        <li>테스트 커버리지 분석을 통한 기존 TC 최적화 및 현행화 유지</li>
                     </ul>
                 </div>
                 <div class="task-group">
@@ -312,7 +385,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" data-aos="fade-up">
                 <div class="card-header">
                     <div class="job-title">금융 솔루션 운영 및 서비스 품질 관리 고도화</div>
                 </div>
@@ -327,7 +400,7 @@
                     <div class="task-title">2. 거래소 시스템 신규 고도화 프로젝트 참여 및 사용자 요구사항 검증</div>
                     <ul>
                         <li>신규 개편 시스템의 기능 적합성 테스트 및 사용자 관점의 사용성 점검 수행</li>
-                        <li>고객 피드백 기반의 개선 요구사항을 분석하여 실제 시스템 반영을 위한 QA 프로세스 완수</li>
+                        <li>고객 피드측 기반의 개선 요구사항을 분석하여 실제 시스템 반영을 위한 QA 프로세스 완수</li>
                     </ul>
                 </div>
                 <div class="task-group">
@@ -356,11 +429,9 @@
         </div> 
     </section>
 
-    <!-- 교육 및 대외활동 섹션 -->
-    <section>
+    <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-graduation-cap"></i>교육 이수 (Education & Training)</h2>
 
-        <!-- 교육 토글 버튼 추가 -->
         <button id="toggleEduBtn" class="toggle-btn">
             <span>교육 이수사항 보기</span>
             <i class="fas fa-chevron-down"></i>
@@ -368,7 +439,7 @@
 
         <div id="education-section" class="fold-content">
             
-            <div class="card">
+            <div class="card" data-aos="fade-up">
                 <div class="card-header edu-header-flex">
                     <div class="job-title">
                         소프트웨어 테스팅 전문가 양성과정
@@ -385,7 +456,7 @@
                 </ul>
             </div>
 
-            <div class="card">
+            <div class="card" data-aos="fade-up">
                 <div class="card-header edu-header-flex">
                     <div class="job-title">
                         Jmeter 기반 성능 테스트 실무 기술 교육
@@ -399,7 +470,7 @@
                 </ul>
             </div>
 
-            <div class="card">
+            <div class="card" data-aos="fade-up">
                 <div class="card-header edu-header-flex">
                     <div class="job-title">
                         소프트웨어 품질향상을 위한 프로세스 관리 실무
@@ -414,7 +485,7 @@
                 </ul>
             </div>
 
-            <div class="card">
+            <div class="card" data-aos="fade-up">
                 <div class="card-header edu-header-flex">
                     <div class="job-title">
                         파이썬 통계분석 초급과정
@@ -428,7 +499,7 @@
                 </ul>
             </div>
 
-            <div class="card">
+            <div class="card" data-aos="fade-up">
                 <div class="card-header edu-header-flex">
                     <div class="job-title">
                         파이썬 기반 데이터 전처리 실무
@@ -441,11 +512,16 @@
                 </ul>
             </div>
 
-        </div> <!-- education-section 끝 -->
+        </div>
     </section>
 
-    <!-- 자바스크립트: 두 개의 버튼이 각각 독립적으로 작동하도록 설정 -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // 애니메이션 초기화
+        AOS.init({
+            once: true // 스크롤 올릴때 반복되지 않고 한 번만 부드럽게 재생
+        });
+
         // 1. 경력사항 토글
         const expBtn = document.getElementById('toggleExpBtn');
         const expBtnText = expBtn.querySelector('span');
@@ -456,6 +532,7 @@
             if (expSection.style.display === 'none' || expSection.style.display === '') {
                 expSection.style.display = 'block';
                 expBtnText.innerHTML = '경력사항 상세 닫기';
+                AOS.refresh(); // 새로 열린 카드 애니메이션 갱신
             } else {
                 expSection.style.display = 'none';
                 expBtnText.innerHTML = '경력사항 상세 보기';
@@ -472,6 +549,7 @@
             if (eduSection.style.display === 'none' || eduSection.style.display === '') {
                 eduSection.style.display = 'block';
                 eduBtnText.innerHTML = '교육 이수사항 닫기';
+                AOS.refresh(); // 새로 열린 카드 애니메이션 갱신
             } else {
                 eduSection.style.display = 'none';
                 eduBtnText.innerHTML = '교육 이수사항 보기';
