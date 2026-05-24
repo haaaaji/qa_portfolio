@@ -291,6 +291,38 @@
             color: var(--accent-color);
         }
 
+        /* ⬆️ 위로가기(Top) 버튼 디자인 */
+        .btn-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--point-color);
+            color: #ffffff;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(131, 109, 243, 0.3);
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-top:hover {
+            background-color: #6c54e0;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(131, 109, 243, 0.4);
+        }
+        .btn-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
     </style>
 </head>
 <body>
@@ -534,7 +566,7 @@
                 <div class="task-group">
                     <div class="task-title">5. 솔루션 결함 탐지 및 소프트웨어 품질 개선 프로세스 주도</div>
                     <ul>
-                        <li>프로그램 내 잠재적 오류를 상시 검출하고, 수정 사항에 대한 회귀 테스트 수행</li>
+                        <li>程序 내 잠재적 오류를 상시 검출하고, 수정 사항에 대한 회귀 테스트 수행</li>
                         <li>반복되는 오류 패턴을 분석하여 근본적인 시스템 품질 향상 및 안정화에 기여</li>
                     </ul>
                 </div>
@@ -629,6 +661,11 @@
         </div>
     </section>
 
+    <!-- ⬆️ 위로가기 버튼 마크업 -->
+    <button id="btnTop" class="btn-top" title="맨 위로 이동">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         // 애니메이션 초기화
@@ -656,7 +693,7 @@
             }
         });
 
-        // 2. 교육 이수사항 토글
+        // 2. 교육 이수사항 토글 (스크롤 막힘 오류 완전 해결)
         const eduBtn = document.getElementById('toggleEduBtn');
         const eduBtnText = eduBtn.querySelector('span');
         const eduSection = document.getElementById('education-section');
@@ -675,7 +712,7 @@
             }
         });
 
-        // 📑 3. 핵심 역량(Skills) 클릭 시 팝업 모달 제어 (스크롤 잠금 기능 추가)
+        // 📑 3. 핵심 역량(Skills) 클릭 시 팝업 모달 제어
         const skillItems = document.querySelectorAll('.skill-item');
         const modalOverlay = document.getElementById('skillModal');
         const modalClose = document.getElementById('modalClose');
@@ -683,16 +720,14 @@
         const modalDesc = document.getElementById('modalDesc');
         const modalIcon = document.getElementById('modalIcon');
 
-        // 모달 열기 함수 (스크롤 차단 포함)
         function openModal() {
             modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // 뒷배경 스크롤 방지
+            document.body.style.overflow = 'hidden'; // 모달 오픈 시에만 스크롤 고정
         }
 
-        // 모달 닫기 함수 (스크롤 복구 포함)
         function closeModal() {
             modalOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // 뒷배경 스크롤 원상 복구
+            document.body.style.overflow = ''; // 모달 닫힐 때 원래대로 복구
         }
 
         skillItems.forEach(item => {
@@ -705,18 +740,33 @@
                 modalDesc.innerText = skillDesc;
                 modalIcon.className = iconClass; 
 
-                openModal(); // 모달 오픈 함수 호출
+                openModal(); 
             });
         });
 
-        // 닫기 버튼 클릭 시
         modalClose.addEventListener('click', closeModal);
-
-        // 어두운 외부 배경 클릭 시
         modalOverlay.addEventListener('click', function(e) {
             if(e.target === modalOverlay) {
                 closeModal();
             }
+        });
+
+        // ⬆️ 4. 위로가기(Top) 버튼 제어
+        const btnTop = document.getElementById('btnTop');
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                btnTop.classList.add('show');
+            } else {
+                btnTop.classList.remove('show');
+            }
+        });
+
+        btnTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     </script>
 </body>
