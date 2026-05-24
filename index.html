@@ -100,6 +100,7 @@
             border: 1px solid #f2e9fc;
             border-radius: 8px;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         .skill-item:hover {
             border-color: var(--point-color);
@@ -222,6 +223,74 @@
             color: var(--point-color);
         }
 
+        /* 📑 팝업 모달(Modal) 스타일 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(51, 45, 58, 0.4);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-box {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 40px rgba(131, 109, 243, 0.15);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active .modal-box {
+            transform: translateY(0);
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--point-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .modal-body {
+            font-size: 1.05rem;
+            color: var(--text-main);
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-sub);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .modal-close:hover {
+            color: var(--accent-color);
+        }
+
     </style>
 </head>
 <body>
@@ -245,44 +314,58 @@
     <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-laptop-code"></i>핵심 역량 (Core Skills)</h2>
         <div class="skills-container">
-            <div class="skill-item">
+            <div class="skill-item" data-skill="Jira" data-desc="제품 이슈 관리, 결함 생명주기 추적 및 스크럼/칸반 대시보드 운영">
                 <i class="fas fa-ticket-alt"></i>
                 <span class="skill-name">Jira</span>
             </div>
-            <div class="skill-item">
+            <div class="skill-item" data-skill="Redmine" data-desc="프로젝트 진척도 관리, 일감 관리를 통한 결함(Issue) 추적 및 이력 관리">
                 <i class="fas fa-tasks"></i>
                 <span class="skill-name">Redmine</span>
             </div>
-            <div class="skill-item">
+            <div class="skill-item" data-skill="Python" data-desc="웹페이지 UI E2E 테스트 자동화 스크립트 작성 및 반복 리그레션 테스트 효율화">
                 <i class="fab fa-python"></i>
                 <span class="skill-name">Python</span>
             </div>
-            <div class="skill-item">
+            <div class="skill-item" data-skill="VMware ESXi" data-desc="가상화(Virtualization) 인프라 기반의 다중 OS 및 독립된 테스트 환경 교차 검증">
                 <i class="fas fa-server"></i>
                 <span class="skill-name">VMware ESXi</span>
             </div>
-            <div class="skill-item">
+            <div class="skill-item" data-skill="Wireshark" data-desc="네트워크 프로토콜 및 패킷 분석을 통한 세션 흐름 검증 및 클라이언트-서버 결함 격리">
                 <i class="fas fa-network-wired"></i>
                 <span class="skill-name">Wireshark</span>
             </div>
-            <div class="skill-item">
+            <div class="skill-item" data-skill="AWS" data-desc="글로벌 클라우드 인프라 활용 및 리전(Region)별 가용성·성능 프로파일링 테스트">
                 <i class="fab fa-aws"></i>
                 <span class="skill-name">AWS</span>
             </div>
-            <div class="skill-item">
+            <div class="skill-item" data-skill="iPerf3" data-desc="네트워크 대역폭 측정을 통한 게이트웨이 및 인프라 구간별 최대 처리량(Throughput) 성능 검증">
                 <i class="fas fa-wave-square"></i>
                 <span class="skill-name">iPerf3</span>
             </div>
-            <div class="skill-item">
+            <div class="skill-item" data-skill="MariaDB" data-desc="쿼리(Query) 조회를 통한 백엔드 데이터 무결성 검증 및 인서트/업데이트 데이터 매칭 테스트">
                 <i class="fas fa-database"></i>
                 <span class="skill-name">MariaDB</span>
             </div>
-            <div class="skill-item">
+            <div class="skill-item" data-skill="Cleopatra" data-desc="인증서 관리 및 패킷 암복호화 검증을 통한 네트워크 보안 기능 및 데이터 전송 안전성 테스트">
                 <i class="fas fa-cube"></i>
                 <span class="skill-name">Cleopatra</span>
             </div>
         </div>
     </section>
+
+    <!-- 📑 팝업 모달 HTML -->
+    <div class="modal-overlay" id="skillModal">
+        <div class="modal-box">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-header">
+                <i id="modalIcon" class="fas fa-cube"></i>
+                <span id="modalTitle">Skill Title</span>
+            </div>
+            <div class="modal-body" id="modalDesc">
+                Skill Description
+            </div>
+        </div>
+    </div>
 
     <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-history"></i>경력 및 프로젝트 (Experience)</h2>
@@ -550,8 +633,8 @@
     <script>
         // 애니메이션 초기화
         AOS.init({
-            once: true, // 스크롤 올릴때 반복되지 않고 한 번만 부드럽게 재생
-            duration: 800 // 애니메이션 지속 시간 (0.8초)
+            once: true, 
+            duration: 800 
         });
 
         // 1. 경력사항 토글
@@ -564,7 +647,6 @@
             if (expSection.style.display === 'none' || expSection.style.display === '') {
                 expSection.style.display = 'block';
                 expBtnText.innerHTML = '경력사항 상세 닫기';
-                // 새로 열린 카드들이 스크롤 영역에 들어올 경우 애니메이션 적용
                 setTimeout(() => {
                     AOS.refresh();
                 }, 10);
@@ -584,13 +666,56 @@
             if (eduSection.style.display === 'none' || eduSection.style.display === '') {
                 eduSection.style.display = 'block';
                 eduBtnText.innerHTML = '교육 이수사항 닫기';
-                // 새로 열린 카드들이 스크롤 영역에 들어올 경우 애니메이션 적용
                 setTimeout(() => {
                     AOS.refresh();
                 }, 10);
             } else {
                 eduSection.style.display = 'none';
                 eduBtnText.innerHTML = '교육 이수사항 보기';
+            }
+        });
+
+        // 📑 3. 핵심 역량(Skills) 클릭 시 팝업 모달 제어 (스크롤 잠금 기능 추가)
+        const skillItems = document.querySelectorAll('.skill-item');
+        const modalOverlay = document.getElementById('skillModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalIcon = document.getElementById('modalIcon');
+
+        // 모달 열기 함수 (스크롤 차단 포함)
+        function openModal() {
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // 뒷배경 스크롤 방지
+        }
+
+        // 모달 닫기 함수 (스크롤 복구 포함)
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // 뒷배경 스크롤 원상 복구
+        }
+
+        skillItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const skillName = this.getAttribute('data-skill');
+                const skillDesc = this.getAttribute('data-desc');
+                const iconClass = this.querySelector('i').className;
+
+                modalTitle.innerText = skillName;
+                modalDesc.innerText = skillDesc;
+                modalIcon.className = iconClass; 
+
+                openModal(); // 모달 오픈 함수 호출
+            });
+        });
+
+        // 닫기 버튼 클릭 시
+        modalClose.addEventListener('click', closeModal);
+
+        // 어두운 외부 배경 클릭 시
+        modalOverlay.addEventListener('click', function(e) {
+            if(e.target === modalOverlay) {
+                closeModal();
             }
         });
     </script>
