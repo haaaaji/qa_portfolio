@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>홍길동의 QA 엔지니어 포트폴리오</title>
+    <title>하지연의 QA 엔지니어 포트폴리오</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -11,15 +11,15 @@
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
-        /* 세련된 다크 테마 색상 정의 */
+        /* 💜 연보라색 & 파스텔 톤 색상 정의 */
         :root {
-            --bg-color: #0f172a;        /* 깊은 다크 네이비 배경 */
-            --card-bg: #1e293b;         /* 어두운 블루그레이 카드 배경 */
-            --text-main: #f8fafc;       /* 밝은 메인 글씨 */
-            --text-sub: #94a3b8;        /* 차분한 서브 글씨 */
-            --point-color: #38bdf8;      /* 스카이 블루 네온 포인트 */
-            --accent-color: #34d399;     /* 민트 그린 강조색 */
-            --border-color: #334155;
+            --bg-color: #f7f1fb;        /* 매우 밝은 연보라색 배경 */
+            --card-bg: #ffffff;         /* 흰색 카드 배경 */
+            --text-main: #332d3a;       /* 진한 갈색 텍스트 */
+            --text-sub: #635c6e;        /* 중간 톤 텍스트 */
+            --point-color: #836df3;      /* 포인트 연보라색 */
+            --border-color: #e2d7f3;     /* 테두리용 연보라색 */
+            --accent-color: #ff85a1;     /* 강조색 (파스텔 핑크) */
         }
 
         body {
@@ -43,7 +43,7 @@
             font-size: 2.8rem; 
             font-weight: 800; 
             margin-bottom: 15px; 
-            color: var(--text-main); 
+            color: var(--point-color); 
             letter-spacing: -0.05rem;
         }
         .contact-info {
@@ -81,33 +81,38 @@
             border: 1px solid var(--border-color);
         }
 
-        /* 🚀 핵심 역량(Skills) 태그 디자인 */
+        /* 🚀 핵심 역량(Skills) 디자인 */
         .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
             background: var(--card-bg);
             padding: 30px;
             border-radius: 16px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(131, 109, 243, 0.1);
         }
-        .skill-tag {
-            background: rgba(56, 189, 248, 0.1);
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border: 1px solid #f2e9fc;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .skill-item:hover {
+            border-color: var(--point-color);
+            background-color: #f6f1fb;
+            transform: translateY(-3px);
+        }
+        .skill-item i {
+            font-size: 1.5rem;
             color: var(--point-color);
-            padding: 8px 18px;
+        }
+        .skill-name {
             font-size: 0.95rem;
             font-weight: 600;
-            border-radius: 50px;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-        .skill-tag:hover {
-            background: var(--point-color);
-            color: var(--bg-color);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
         }
 
         /* 📇 카드 디자인 (경력 & 교육) */
@@ -115,22 +120,21 @@
             background: var(--card-bg);
             padding: 35px;
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(131, 109, 243, 0.1);
             margin-bottom: 30px;
             border: 1px solid var(--border-color);
-            border-top: 4px solid var(--border-color);
+            border-left: 4px solid var(--border-color);
             transition: all 0.3s ease;
         }
         .card:hover { 
-            border-top-color: var(--point-color);
+            border-left-color: var(--point-color);
             transform: translateY(-2px);
         }
 
         /* 토글 버튼 디자인 고도화 */
         .toggle-btn {
-            background: linear-gradient(135deg, #0284c7, #38bdf8);
-            color: var(--bg-color);
-            font-color: #0f172a;
+            background-color: var(--point-color);
+            color: #ffffff;
             font-weight: 700;
             border: none;
             padding: 14px 32px;
@@ -142,11 +146,11 @@
             align-items: center;
             gap: 10px;
             margin: 0 auto 40px auto;
-            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4);
+            box-shadow: 0 4px 20px rgba(131, 109, 243, 0.2);
         }
         .toggle-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(56, 189, 248, 0.6);
+            box-shadow: 0 6px 25px rgba(131, 109, 243, 0.3);
         }
         .toggle-btn i { transition: transform 0.3s ease; }
         .toggle-btn.active i { transform: rotate(180deg); }
@@ -186,16 +190,16 @@
             font-size: 0.95rem;
             color: var(--point-color);
             font-weight: 600;
-            background-color: rgba(56, 189, 248, 0.15);
+            background-color: #f1ecfc;
             padding: 6px 16px;
             border-radius: 20px;
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            border: 1px solid #d4c8f3;
         }
 
         .task-group { margin-bottom: 22px; }
         .task-title {
             font-weight: 700;
-            color: #e2e8f0;
+            color: #332d3a;
             margin-bottom: 10px;
             font-size: 1.1rem;
         }
@@ -215,7 +219,7 @@
             position: absolute;
             left: 0;
             top: 3px;
-            color: var(--accent-color);
+            color: var(--point-color);
         }
 
     </style>
@@ -223,10 +227,10 @@
 <body>
 
     <header data-aos="fade-down" data-aos-duration="1000">
-        <h1>홍길동</h1>
+        <h1>하지연</h1>
         <div class="contact-info">
-            <span><i class="fas fa-phone"></i> 010-1234-5678</span>
-            <span><i class="fas fa-envelope"></i> email@example.com</span>
+            <span><i class="fas fa-phone"></i> 010-8975-1583</span>
+            <span><i class="fas fa-envelope"></i> hajix0x@naver.com</span>
             <span><i class="fas fa-briefcase"></i> QA & 테스트 엔지니어</span>
         </div>
     </header>
@@ -241,15 +245,42 @@
     <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-laptop-code"></i>핵심 역량 (Core Skills)</h2>
         <div class="skills-container">
-            <span class="skill-tag">Jira</span>
-            <span class="skill-tag">Redmine</span>
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">VMware ESXi</span>
-            <span class="skill-tag">Wireshark</span>
-            <span class="skill-tag">AWS</span>
-            <span class="skill-tag">iPerf3</span>
-            <span class="skill-tag">MariaDB</span>
-            <span class="skill-tag">Cleopatra (클레오파트라)</span>
+            <div class="skill-item">
+                <i class="fas fa-ticket-alt"></i>
+                <span class="skill-name">Jira</span>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-tasks"></i>
+                <span class="skill-name">Redmine</span>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-python"></i>
+                <span class="skill-name">Python</span>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-server"></i>
+                <span class="skill-name">VMware ESXi</span>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-network-wired"></i>
+                <span class="skill-name">Wireshark</span>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-aws"></i>
+                <span class="skill-name">AWS</span>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-wave-square"></i>
+                <span class="skill-name">iPerf3</span>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-database"></i>
+                <span class="skill-name">MariaDB</span>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-cube"></i>
+                <span class="skill-name">Cleopatra</span>
+            </div>
         </div>
     </section>
 
@@ -400,7 +431,7 @@
                     <div class="task-title">2. 거래소 시스템 신규 고도화 프로젝트 참여 및 사용자 요구사항 검증</div>
                     <ul>
                         <li>신규 개편 시스템의 기능 적합성 테스트 및 사용자 관점의 사용성 점검 수행</li>
-                        <li>고객 피드측 기반의 개선 요구사항을 분석하여 실제 시스템 반영을 위한 QA 프로세스 완수</li>
+                        <li>고객 피드백 기반의 개선 요구사항을 분석하여 실제 시스템 반영을 위한 QA 프로세스 완수</li>
                     </ul>
                 </div>
                 <div class="task-group">
@@ -519,7 +550,8 @@
     <script>
         // 애니메이션 초기화
         AOS.init({
-            once: true // 스크롤 올릴때 반복되지 않고 한 번만 부드럽게 재생
+            once: true, // 스크롤 올릴때 반복되지 않고 한 번만 부드럽게 재생
+            duration: 800 // 애니메이션 지속 시간 (0.8초)
         });
 
         // 1. 경력사항 토글
@@ -532,7 +564,10 @@
             if (expSection.style.display === 'none' || expSection.style.display === '') {
                 expSection.style.display = 'block';
                 expBtnText.innerHTML = '경력사항 상세 닫기';
-                AOS.refresh(); // 새로 열린 카드 애니메이션 갱신
+                // 새로 열린 카드들이 스크롤 영역에 들어올 경우 애니메이션 적용
+                setTimeout(() => {
+                    AOS.refresh();
+                }, 10);
             } else {
                 expSection.style.display = 'none';
                 expBtnText.innerHTML = '경력사항 상세 보기';
@@ -549,7 +584,10 @@
             if (eduSection.style.display === 'none' || eduSection.style.display === '') {
                 eduSection.style.display = 'block';
                 eduBtnText.innerHTML = '교육 이수사항 닫기';
-                AOS.refresh(); // 새로 열린 카드 애니메이션 갱신
+                // 새로 열린 카드들이 스크롤 영역에 들어올 경우 애니메이션 적용
+                setTimeout(() => {
+                    AOS.refresh();
+                }, 10);
             } else {
                 eduSection.style.display = 'none';
                 eduBtnText.innerHTML = '교육 이수사항 보기';
