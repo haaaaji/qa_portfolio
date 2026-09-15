@@ -133,7 +133,7 @@
             transform: translateY(-2px);
         }
 
-        /* 토글 버튼 디자인 고도화 */
+        /* 토글 버튼 디자인 */
         .toggle-btn {
             background-color: var(--point-color);
             color: #ffffff;
@@ -157,7 +157,7 @@
         .toggle-btn i { transition: transform 0.3s ease; }
         .toggle-btn.active i { transform: rotate(180deg); }
 
-        /* 접히는 영역 */
+        /* 접히는 영역 (기본 숨김) */
         .fold-content {
             display: none;
         }
@@ -537,7 +537,6 @@
                     <div class="job-title">Docker 기반 4대 RDBMS 통합 테스트베드 구축 및 ZTNA 컨트롤러 계정 동기화 무결성 검증</div>
                 </div>
 
-                <!-- 핵심 요약 그리드 -->
                 <div class="trouble-summary-grid">
                     <div class="trouble-summary-item">
                         <span>대상 DB 엔진 (4종)</span>
@@ -718,65 +717,73 @@
         </div> 
     </section>
 
-    <!-- 🛠️ 심층 트러블슈팅 사례 섹션 (항상 펼침 형태) -->
+    <!-- 🛠️ 심층 트러블슈팅 사례 섹션 (토글 버튼 클릭 시 펼침) -->
     <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-tools"></i>심층 트러블슈팅 사례 (Troubleshooting)</h2>
 
-        <div class="card" data-aos="fade-up">
-            <div class="card-header">
-                <div style="margin-bottom: 8px;">
-                    <span class="tag-pill primary">Network QA</span>
-                    <span class="tag-pill accent">Performance Bottleneck</span>
+        <!-- 트러블슈팅 열고 닫는 보라색 버튼 -->
+        <button id="toggleTroubleBtn" class="toggle-btn">
+            <span>트러블슈팅 사례 보기</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+
+        <!-- 기본 상태는 닫혀 있고(fold-content), 버튼을 누르면 열리는 영역 -->
+        <div id="troubleshooting-section" class="fold-content">
+            <div class="card" data-aos="fade-up">
+                <div class="card-header">
+                    <div style="margin-bottom: 8px;">
+                        <span class="tag-pill primary">Network QA</span>
+                        <span class="tag-pill accent">Performance Bottleneck</span>
+                    </div>
+                    <div class="job-title">WireGuard VPN 게이트웨이 UDP 대역폭 한계치 검증 및 세션 크래시 예방을 위한 QoS 정책 수립</div>
                 </div>
-                <div class="job-title">WireGuard VPN 게이트웨이 UDP 대역폭 한계치 검증 및 세션 크래시 예방을 위한 QoS 정책 수립</div>
-            </div>
 
-            <!-- 핵심 요약 그리드 -->
-            <div class="trouble-summary-grid">
-                <div class="trouble-summary-item">
-                    <span>프로토콜 & 도구</span>
-                    <p>WireGuard, UDP, iperf3</p>
+                <div class="trouble-summary-grid">
+                    <div class="trouble-summary-item">
+                        <span>프로토콜 & 도구</span>
+                        <p>WireGuard, UDP, iperf3</p>
+                    </div>
+                    <div class="trouble-summary-item">
+                        <span>가용 임계치 (Ceiling)</span>
+                        <p style="color: #cf222e;">204 Mbps (초과 시 유실률 79%+)</p>
+                    </div>
+                    <div class="trouble-summary-item">
+                        <span>품질 보증 결과 (Impact)</span>
+                        <p style="color: #1a7f37;">150Mbps QoS 상한선 수립 & 크래시 방지</p>
+                    </div>
                 </div>
-                <div class="trouble-summary-item">
-                    <span>가용 임계치 (Ceiling)</span>
-                    <p style="color: #cf222e;">204 Mbps (초과 시 유실률 79%+)</p>
+
+                <div class="task-group">
+                    <div class="task-title">1. 문제 상황 및 검증 배경 (Context & Challenge)</div>
+                    <ul>
+                        <li>대규모 트래픽 인입 시 WireGuard VPN 터널 및 게이트웨이의 UDP 실효 처리 한계와 장애 리스크를 사전 파악하기 위한 가용 임계점 측정 필요</li>
+                        <li><strong>방화벽 인바운드 차단 난관:</strong> 보안 게이트웨이 특성상 외부에서 유입되는 트래픽이 차단되어 일반적인 경로(Windows 클라이언트 ➔ Linux 게이트웨이) 송신 시 <code>Connection timed out</code> 발생 및 측정 불가</li>
+                    </ul>
                 </div>
-                <div class="trouble-summary-item">
-                    <span>품질 보증 결과 (Impact)</span>
-                    <p style="color: #1a7f37;">150Mbps QoS 상한선 수립 & 크래시 방지</p>
+
+                <div class="task-group">
+                    <div class="task-title">2. 해결 전략 및 테스트베드 설계 (Strategy)</div>
+                    <ul>
+                        <li><strong>역방향 타격(Reverse Role) 모델 설계:</strong> 아웃바운드 허용 정책을 활용해 Windows PC를 수신 서버(<code>-s</code>)로 열고, Linux 게이트웨이에서 역방향으로 송신(<code>-c</code>)하도록 역할을 반전시켜 방화벽 제약을 우회하고 순수 터널링 대역폭 계측 환경 구축</li>
+                        <li><strong>점진적 가압 시나리오 수립:</strong> 시스템 마비를 방지하기 위해 3단계(50M~100M Baseline ➔ 300M~800M 임계점 추적 ➔ 1G 스트레스)로 부하를 점진적으로 주입</li>
+                    </ul>
                 </div>
-            </div>
 
-            <div class="task-group">
-                <div class="task-title">1. 문제 상황 및 검증 배경 (Context & Challenge)</div>
-                <ul>
-                    <li>대규모 트래픽 인입 시 WireGuard VPN 터널 및 게이트웨이의 UDP 실효 처리 한계와 장애 리스크를 사전 파악하기 위한 가용 임계점 측정 필요</li>
-                    <li><strong>방화벽 인바운드 차단 난관:</strong> 보안 게이트웨이 특성상 외부에서 유입되는 트래픽이 차단되어 일반적인 경로(Windows 클라이언트 ➔ Linux 게이트웨이) 송신 시 <code>Connection timed out</code> 발생 및 측정 불가</li>
-                </ul>
-            </div>
+                <div class="task-group">
+                    <div class="task-title">3. 심층 분석 및 병목 원인 규명 (Root Cause)</div>
+                    <ul>
+                        <li><strong>Throughput Ceiling 식별:</strong> 송신 대역폭을 300M에서 1G까지 증설해도 수신 Bitrate는 <strong>204Mbps 구간에서 정체(Bottleneck Wall)</strong>되는 물리적 처리 한계점 포착</li>
+                        <li><strong>장비 크래시 결함 현상 재현:</strong> 한계치 초과 유입 시 패킷 유실률이 <strong>최대 79% 이상</strong> 치솟으며, 800M~1G 구간에서 수신 처리량 완전 마비(<code>0.00 bits/sec</code>) 및 세션 거부로 터널이 다운되는 결함 증상 입증</li>
+                    </ul>
+                </div>
 
-            <div class="task-group">
-                <div class="task-title">2. 해결 전략 및 테스트베드 설계 (Strategy)</div>
-                <ul>
-                    <li><strong>역방향 타격(Reverse Role) 모델 설계:</strong> 아웃바운드 허용 정책을 활용해 Windows PC를 수신 서버(<code>-s</code>)로 열고, Linux 게이트웨이에서 역방향으로 송신(<code>-c</code>)하도록 역할을 반전시켜 방화벽 제약을 우회하고 순수 터널링 대역폭 계측 환경 구축</li>
-                    <li><strong>점진적 가압 시나리오 수립:</strong> 시스템 마비를 방지하기 위해 3단계(50M~100M Baseline ➔ 300M~800M 임계점 추적 ➔ 1G 스트레스)로 부하를 점진적으로 주입</li>
-                </ul>
-            </div>
-
-            <div class="task-group">
-                <div class="task-title">3. 심층 분석 및 병목 원인 규명 (Root Cause)</div>
-                <ul>
-                    <li><strong>Throughput Ceiling 식별:</strong> 송신 대역폭을 300M에서 1G까지 증설해도 수신 Bitrate는 <strong>204Mbps 구간에서 정체(Bottleneck Wall)</strong>되는 물리적 처리 한계점 포착</li>
-                    <li><strong>장비 크래시 결함 현상 재현:</strong> 한계치 초과 유입 시 패킷 유실률이 <strong>최대 79% 이상</strong> 치솟으며, 800M~1G 구간에서 수신 처리량 완전 마비(<code>0.00 bits/sec</code>) 및 세션 거부로 터널이 다운되는 결함 증상 입증</li>
-                </ul>
-            </div>
-
-            <div class="task-group">
-                <div class="task-title">4. 조치 및 엔지니어링 임팩트 (Resolution & Impact)</div>
-                <ul>
-                    <li><strong>QoS 대역폭 상한선 가이드 수립:</strong> 게이트웨이 가용 한계치(204Mbps)의 70~80% 수준인 <strong>150Mbps QoS 상한선</strong>을 공식 제안하여 급격한 트래픽 스파이크에도 터널이 강제 다운되지 않도록 인프라 안전 마진 확보</li>
-                    <li><strong>운영 및 테스트 표준화 가이드 자산화:</strong> Windows 공용/개인 방화벽 필수 예외 처리 절차 및 테스트 중 프로세스 행(Hang) 발생 시 강제 종료/세션 복구(<code>sudo pkill -9 iperf3</code>) 대응 매뉴얼 문서화 공유</li>
-                </ul>
+                <div class="task-group">
+                    <div class="task-title">4. 조치 및 엔지니어링 임팩트 (Resolution & Impact)</div>
+                    <ul>
+                        <li><strong>QoS 대역폭 상한선 가이드 수립:</strong> 게이트웨이 가용 한계치(204Mbps)의 70~80% 수준인 <strong>150Mbps QoS 상한선</strong>을 공식 제안하여 급격한 트래픽 스파이크에도 터널이 강제 다운되지 않도록 인프라 안전 마진 확보</li>
+                        <li><strong>운영 및 테스트 표준화 가이드 자산화:</strong> Windows 공용/개인 방화벽 필수 예외 처리 절차 및 테스트 중 프로세스 행(Hang) 발생 시 강제 종료/세션 복구(<code>sudo pkill -9 iperf3</code>) 대응 매뉴얼 문서화 공유</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
@@ -881,7 +888,7 @@
             duration: 800 
         });
 
-        // 1. 경력사항 토글
+        // 1. 경력사항 토글 제어
         const expBtn = document.getElementById('toggleExpBtn');
         const expBtnText = expBtn.querySelector('span');
         const expSection = document.getElementById('experience-section');
@@ -900,7 +907,26 @@
             }
         });
 
-        // 2. 교육 이수사항 토글
+        // 2. 트러블슈팅 사례 토글 제어 (누르면 열리고 다시 누르면 닫힘)
+        const troubleBtn = document.getElementById('toggleTroubleBtn');
+        const troubleBtnText = troubleBtn.querySelector('span');
+        const troubleSection = document.getElementById('troubleshooting-section');
+
+        troubleBtn.addEventListener('click', function() {
+            troubleBtn.classList.toggle('active');
+            if (troubleSection.style.display === 'none' || troubleSection.style.display === '') {
+                troubleSection.style.display = 'block';
+                troubleBtnText.innerHTML = '트러블슈팅 사례 닫기';
+                setTimeout(() => {
+                    AOS.refresh();
+                }, 10);
+            } else {
+                troubleSection.style.display = 'none';
+                troubleBtnText.innerHTML = '트러블슈팅 사례 보기';
+            }
+        });
+
+        // 3. 교육 이수사항 토글 제어
         const eduBtn = document.getElementById('toggleEduBtn');
         const eduBtnText = eduBtn.querySelector('span');
         const eduSection = document.getElementById('education-section');
@@ -919,7 +945,7 @@
             }
         });
 
-        // 📑 3. 핵심 역량(Skills) 클릭 시 팝업 모달 제어
+        // 📑 4. 핵심 역량(Skills) 클릭 시 팝업 모달 제어
         const skillItems = document.querySelectorAll('.skill-item');
         const modalOverlay = document.getElementById('skillModal');
         const modalClose = document.getElementById('modalClose');
@@ -958,7 +984,7 @@
             }
         });
 
-        // ⬆️ 4. 위로가기(Top) 버튼 제어
+        // ⬆️ 5. 위로가기(Top) 버튼 제어
         const btnTop = document.getElementById('btnTop');
 
         window.addEventListener('scroll', function() {
