@@ -79,6 +79,7 @@
             padding: 25px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
+            word-break: keep-all;
         }
 
         /* 🚀 핵심 역량(Skills) 디자인 */
@@ -116,7 +117,7 @@
             font-weight: 600;
         }
 
-        /* 📇 카드 디자인 (경력 & 교육) */
+        /* 📇 카드 디자인 (경력 & 교육 & 트러블슈팅) */
         .card {
             background: var(--card-bg);
             padding: 35px;
@@ -223,6 +224,22 @@
             color: var(--point-color);
         }
 
+        /* 서브 리스트 */
+        li ul {
+            margin-top: 8px;
+            padding-left: 0;
+        }
+        li ul li {
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+        li ul li::before {
+            content: "\f105";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--accent-color);
+        }
+
         /* 📑 팝업 모달(Modal) 스타일 */
         .modal-overlay {
             position: fixed;
@@ -323,6 +340,54 @@
             visibility: visible;
         }
 
+        /* 🛠️ 트러블슈팅 전용 요약 박스 */
+        .trouble-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 24px;
+            background-color: #fbf9fe;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid #ebdffb;
+        }
+        .trouble-summary-item span {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+        .trouble-summary-item p {
+            margin: 4px 0 0 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .tag-pill {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-right: 6px;
+        }
+        .tag-pill.primary {
+            background-color: #f1ecfc;
+            color: var(--point-color);
+            border: 1px solid #d4c8f3;
+        }
+        .tag-pill.accent {
+            background-color: #fff0f3;
+            color: #d63384;
+            border: 1px solid #ffd1dc;
+        }
+        code {
+            background-color: #f1ecfc;
+            color: var(--point-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.88rem;
+            font-family: monospace;
+        }
     </style>
 </head>
 <body>
@@ -339,14 +404,14 @@
     <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-user-tie"></i>소개 (About Me)</h2>
         <div class="about-text">
-            인프라 검증부터 프론트엔드/백엔드 서비스 품질, 자동화 테스트까지 폭넓은 QA 전문성을 보유한 엔지니어입니다. 문제의 근본 원인을 분석하고, 효율적인 테스트 환경을 구축하여 서비스의 안정성과 가치를 높이는 데 기여합니다.
+            ZTNA 보안 인프라 및 네트워크 무결성 검증부터 가상화 기반 E2E 품질 보증, Jira 기반 이슈 라이프사이클 관리까지 폭넓은 전문성을 보유한 QA 엔지니어입니다. Wireshark 패킷 분석과 iperf3 대역폭 프로파일링으로 근본 원인(Root Cause)을 추적하며, 정량적 데이터 기반의 품질 보증 체계를 구축하여 시스템 안정성과 서비스 가치를 극대화합니다.
         </div>
     </section>
 
     <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-laptop-code"></i>핵심 역량 (Core Skills)</h2>
         <div class="skills-container">
-            <div class="skill-item" data-skill="Jira" data-desc="제품 이슈 관리, 결함 생명주기 추적 및 스크럼/칸반 대시보드 운영">
+            <div class="skill-item" data-skill="Jira" data-desc="고객사 이슈 트래킹, 결함 생명주기 관리 및 팀원 업무 분배(Task Allocation)를 통한 리소스 병목 해소">
                 <i class="fas fa-ticket-alt"></i>
                 <span class="skill-name">Jira</span>
             </div>
@@ -358,11 +423,11 @@
                 <i class="fab fa-python"></i>
                 <span class="skill-name">Python</span>
             </div>
-            <div class="skill-item" data-skill="VMware ESXi" data-desc="가상화(Virtualization) 인프라 기반의 다중 OS 및 독립된 테스트 환경 교차 검증">
+            <div class="skill-item" data-skill="VMware ESXi" data-desc="가상화(Virtualization) 인프라 기반의 다중 OS 및 독립된 테스트베드 프로비저닝">
                 <i class="fas fa-server"></i>
                 <span class="skill-name">VMware ESXi</span>
             </div>
-            <div class="skill-item" data-skill="Wireshark" data-desc="네트워크 프로토콜 및 패킷 분석을 통한 세션 흐름 검증 및 클라이언트-서버 결함 격리">
+            <div class="skill-item" data-skill="Wireshark" data-desc="L4-L7 네트워크 패킷 캡처 및 지연/손실 Root Cause 규명, 통신 무결성 검증">
                 <i class="fas fa-network-wired"></i>
                 <span class="skill-name">Wireshark</span>
             </div>
@@ -370,7 +435,7 @@
                 <i class="fab fa-aws"></i>
                 <span class="skill-name">AWS</span>
             </div>
-            <div class="skill-item" data-skill="iPerf3" data-desc="네트워크 대역폭 측정을 통한 게이트웨이 및 인프라 구간별 최대 처리량(Throughput) 성능 검증">
+            <div class="skill-item" data-skill="iPerf3" data-desc="WireGuard/VPN 대역폭 측정, 패킷 손실률 계측 및 시스템 가용 임계치(Ceiling) 도출">
                 <i class="fas fa-wave-square"></i>
                 <span class="skill-name">iPerf3</span>
             </div>
@@ -399,6 +464,7 @@
         </div>
     </div>
 
+    <!-- 📇 경력 및 프로젝트 섹션 -->
     <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-history"></i>경력 및 프로젝트 (Experience)</h2>
         
@@ -417,13 +483,14 @@
                     <div class="task-title">1. VMware ESXi 기반의 가상화 테스트 인프라 설계 및 멀티 OS 환경 구축</div>
                     <ul>
                         <li>Linux/Windows 등 이기종 OS 환경의 가상 머신(VM) 프로비저닝 및 테스트베드 최적화 운영</li>
-                        <li>스냅샷 및 템플릿 활용을 통한 테스트 환경 복구 시간 단축 및 환경 격리 기반의 독립적 검증 수행</li>
+                        <li>Multi-OS(Windows, macOS, Android, iOS) 클라이언트 환경별 테스트베드 구축 및 크로스 플랫폼 호환성·안정성 검증</li>
                     </ul>
                 </div>
                 <div class="task-group">
                     <div class="task-title">2. 네트워크 패킷 분석 및 보안 무결성 검증을 통한 심층 트러블슈팅</div>
                     <ul>
                         <li>Wireshark 기반 패킷 분석으로 네트워크 지연 및 통신 결함의 Root Cause 분석 및 해결 지원</li>
+                        <li>iperf3를 활용한 보안 터널링 구간별 네트워크 대역폭 및 패킷 손실률 측정·분석</li>
                         <li>VPN 터널링 무결성 및 암호화 프로토콜 검증, VS Code 기반 로그 파싱을 통한 시스템 오류 진단</li>
                     </ul>
                 </div>
@@ -439,6 +506,19 @@
                     <ul>
                         <li>API 연동 정합성 및 DB 서버(MariaDB, PostgreSQL 등) 데이터 무결성 검증 프로세스 주도</li>
                         <li>플랫폼(Desktop/Mobile)별 특성을 고려한 결함 분석 및 사용자 경험(UX/UI) 고도화 제안</li>
+                    </ul>
+                </div>
+                <div class="task-group">
+                    <div class="task-title">5. 고객사 이슈 트래킹 고도화 및 Jira 기반 QA 프로젝트·팀 리소스 매니지먼트</div>
+                    <ul>
+                        <li><strong>Jira 기반 VOC/결함 수명 주기 관리 및 업무 분배:</strong> 인입되는 고객사 이슈의 영향도 및 긴급도를 분석하여 팀원 역량에 따른 최적의 업무 분배(Task Allocation) 및 협업 조율</li>
+                        <li><strong>실무 중심 검증 기여 및 주요 고객사 이슈 해결 주도 (전체 이슈의 70.3% 실무 커버):</strong>
+                            <ul>
+                                <li>단순 티켓 할당을 넘어 심층 분석, 재현 환경 구성, 로그/패킷 분석, 재검증(Re-test) 전 과정 주도</li>
+                                <li>최근 9개월간 QA팀 전체 Jira 이슈 <strong>222건 중 156건(70.3%)</strong> 실무 처리 및 검증 완수</li>
+                                <li>ITS-QA(QA 이슈 검증) 155건 중 107건(69.0%), PC2X(클라이언트 이슈) 21건 중 17건(81.0%), ITS(고객사 인입 이슈) 46건 중 32건(69.6%) 집중 해결</li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -566,7 +646,7 @@
                 <div class="task-group">
                     <div class="task-title">5. 솔루션 결함 탐지 및 소프트웨어 품질 개선 프로세스 주도</div>
                     <ul>
-                        <li>程序 내 잠재적 오류를 상시 검출하고, 수정 사항에 대한 회귀 테스트 수행</li>
+                        <li>프로그램 내 잠재적 오류를 상시 검출하고, 수정 사항에 대한 회귀 테스트 수행</li>
                         <li>반복되는 오류 패턴을 분석하여 근본적인 시스템 품질 향상 및 안정화에 기여</li>
                     </ul>
                 </div>
@@ -575,6 +655,79 @@
         </div> 
     </section>
 
+    <!-- 🛠️ 심층 트러블슈팅 사례 섹션 (신설) -->
+    <section data-aos="fade-up" data-aos-duration="1000">
+        <h2><i class="fas fa-tools"></i>심층 트러블슈팅 사례 (Troubleshooting)</h2>
+
+        <button id="toggleTroubleBtn" class="toggle-btn">
+            <span>트러블슈팅 사례 보기</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+
+        <div id="troubleshooting-section" class="fold-content">
+            
+            <div class="card" data-aos="fade-up">
+                <div class="card-header">
+                    <div style="margin-bottom: 8px;">
+                        <span class="tag-pill primary">Network QA</span>
+                        <span class="tag-pill accent">Performance Bottleneck</span>
+                    </div>
+                    <div class="job-title">WireGuard VPN 게이트웨이 UDP 대역폭 한계치 검증 및 세션 크래시 예방을 위한 QoS 정책 수립</div>
+                </div>
+
+                <!-- 핵심 요약 그리드 -->
+                <div class="trouble-summary-grid">
+                    <div class="trouble-summary-item">
+                        <span>프로토콜 & 도구</span>
+                        <p>WireGuard, UDP, iperf3</p>
+                    </div>
+                    <div class="trouble-summary-item">
+                        <span>가용 임계치 (Ceiling)</span>
+                        <p style="color: #cf222e;">204 Mbps (초과 시 유실률 79%+)</p>
+                    </div>
+                    <div class="trouble-summary-item">
+                        <span>품질 보증 결과 (Impact)</span>
+                        <p style="color: #1a7f37;">150Mbps QoS 상한선 수립 & 크래시 방지</p>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">1. 문제 상황 및 검증 배경 (Context & Challenge)</div>
+                    <ul>
+                        <li>대규모 트래픽 인입 시 WireGuard VPN 터널 및 게이트웨이의 UDP 실효 처리 한계와 장애 리스크를 사전 파악하기 위한 가용 임계점 측정 필요.</li>
+                        <li><strong>방화벽 인바운드 차단 난관:</strong> 보안 게이트웨이 특성상 외부에서 유입되는 트래픽이 차단되어 일반적인 경로(Windows 클라이언트 ➔ Linux 게이트웨이) 송신 시 <code>Connection timed out</code> 발생 및 측정 불가.</li>
+                    </ul>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">2. 해결 전략 및 테스트베드 설계 (Strategy)</div>
+                    <ul>
+                        <li><strong>역방향 타격(Reverse Role) 모델 설계:</strong> 아웃바운드 허용 정책을 활용해 Windows PC를 수신 서버(<code>-s</code>)로 열고, Linux 게이트웨이에서 역방향으로 송신(<code>-c</code>)하도록 역할을 반전시켜 방화벽 제약을 우회하고 순수 터널링 대역폭 계측 환경 구축.</li>
+                        <li><strong>점진적 가압 시나리오 수립:</strong> 시스템 마비를 방지하기 위해 3단계(50M~100M Baseline ➔ 300M~800M 임계점 추적 ➔ 1G 스트레스)로 부하를 점진적으로 주입.</li>
+                    </ul>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">3. 심층 분석 및 병목 원인 규명 (Root Cause)</div>
+                    <ul>
+                        <li><strong>Throughput Ceiling 식별:</strong> 송신 대역폭을 300M에서 1G까지 증설해도 수신 Bitrate는 <strong>204Mbps 구간에서 정체(Bottleneck Wall)</strong>되는 물리적 처리 한계점 포착.</li>
+                        <li><strong>장비 크래시 결함 현상 재현:</strong> 한계치 초과 유입 시 패킷 유실률이 <strong>최대 79% 이상</strong> 치솟으며, 800M~1G 구간에서 수신 처리량 완전 마비(<code>0.00 bits/sec</code>) 및 세션 거부로 터널이 다운되는 결함 증상 입증.</li>
+                    </ul>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">4. 조치 및 엔지니어링 임팩트 (Resolution & Impact)</div>
+                    <ul>
+                        <li><strong>QoS 대역폭 상한선 가이드 수립:</strong> 게이트웨이 가용 한계치(204Mbps)의 70~80% 수준인 <strong>150Mbps QoS 상한선</strong>을 공식 제안하여 급격한 트래픽 스파이크에도 터널이 강제 다운되지 않도록 인프라 안전 마진 확보.</li>
+                        <li><strong>운영 및 테스트 표준화 가이드 자산화:</strong> Windows 공용/개인 방화벽 필수 예외 처리 절차 및 테스트 중 프로세스 행(Hang) 발생 시 강제 종료/세션 복구(<code>sudo pkill -9 iperf3</code>) 대응 매뉴얼 문서화 공유.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 🎓 교육 이수 섹션 -->
     <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-graduation-cap"></i>교육 이수 (Education & Training)</h2>
 
@@ -693,7 +846,26 @@
             }
         });
 
-        // 2. 교육 이수사항 토글 (스크롤 막힘 오류 완전 해결)
+        // 2. 트러블슈팅 사례 토글 (신설)
+        const troubleBtn = document.getElementById('toggleTroubleBtn');
+        const troubleBtnText = troubleBtn.querySelector('span');
+        const troubleSection = document.getElementById('troubleshooting-section');
+
+        troubleBtn.addEventListener('click', function() {
+            troubleBtn.classList.toggle('active');
+            if (troubleSection.style.display === 'none' || troubleSection.style.display === '') {
+                troubleSection.style.display = 'block';
+                troubleBtnText.innerHTML = '트러블슈팅 사례 닫기';
+                setTimeout(() => {
+                    AOS.refresh();
+                }, 10);
+            } else {
+                troubleSection.style.display = 'none';
+                troubleBtnText.innerHTML = '트러블슈팅 사례 보기';
+            }
+        });
+
+        // 3. 교육 이수사항 토글
         const eduBtn = document.getElementById('toggleEduBtn');
         const eduBtnText = eduBtn.querySelector('span');
         const eduSection = document.getElementById('education-section');
@@ -712,7 +884,7 @@
             }
         });
 
-        // 📑 3. 핵심 역량(Skills) 클릭 시 팝업 모달 제어
+        // 📑 4. 핵심 역량(Skills) 클릭 시 팝업 모달 제어
         const skillItems = document.querySelectorAll('.skill-item');
         const modalOverlay = document.getElementById('skillModal');
         const modalClose = document.getElementById('modalClose');
@@ -722,12 +894,12 @@
 
         function openModal() {
             modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // 모달 오픈 시에만 스크롤 고정
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             modalOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // 모달 닫힐 때 원래대로 복구
+            document.body.style.overflow = '';
         }
 
         skillItems.forEach(item => {
@@ -751,7 +923,7 @@
             }
         });
 
-        // ⬆️ 4. 위로가기(Top) 버튼 제어
+        // ⬆️ 5. 위로가기(Top) 버튼 제어
         const btnTop = document.getElementById('btnTop');
 
         window.addEventListener('scroll', function() {
