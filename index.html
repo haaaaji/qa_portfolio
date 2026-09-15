@@ -527,64 +527,6 @@
                 </div>
             </div>
 
-            <!-- 🗄️ Docker 기반 멀티 RDBMS 계정 동기화 검증 프로젝트 카드 -->
-            <div class="card" data-aos="fade-up">
-                <div class="card-header">
-                    <div style="margin-bottom: 8px;">
-                        <span class="tag-pill primary">Infra & Virtualization</span>
-                        <span class="tag-pill accent">Docker / Multi-RDBMS</span>
-                    </div>
-                    <div class="job-title">Docker 기반 4대 RDBMS 통합 테스트베드 구축 및 ZTNA 컨트롤러 계정 동기화 무결성 검증</div>
-                </div>
-
-                <div class="trouble-summary-grid">
-                    <div class="trouble-summary-item">
-                        <span>대상 DB 엔진 (4종)</span>
-                        <p>Oracle 21c, MS-SQL 2022, MariaDB 11.4, PostgreSQL 16.3</p>
-                    </div>
-                    <div class="trouble-summary-item">
-                        <span>구축 인프라 & 도구</span>
-                        <p style="color: #836df3;">VMware ESXi (Ubuntu 22.04 VM), Docker Compose, DBeaver</p>
-                    </div>
-                    <div class="trouble-summary-item">
-                        <span>품질 검증 목표</span>
-                        <p style="color: #1a7f37;">고객사 이종 DB별 사용자 계정·조직도 자동 동기화 무결성 확보</p>
-                    </div>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-title">1. 프로젝트 배경 및 테스트 인프라 아키텍처 설계</div>
-                    <ul>
-                        <li>고객사마다 상이한 기간계 DB 환경(Oracle, MS-SQL, MySQL 계열, PostgreSQL)에 대응하기 위해, 단일 VM 환경에서 4대 RDBMS를 격리·운용할 수 있는 통합 테스트베드 필요성 대두.</li>
-                        <li><strong>Docker Compose 기반 원스톱 프로비저닝:</strong> VMware ESXi 상의 Ubuntu VM에 <code>docker-compose.yml</code> 파이프라인을 구축하여 포트 포워딩(1521, 1433, 3306, 5432) 및 초기 볼륨을 코드 기반으로 자동화 배포.</li>
-                    </ul>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-title">2. 컨테이너 빌드 트러블슈팅 및 가용성 확보</div>
-                    <ul>
-                        <li><strong>Oracle 컨테이너 구동 실패 해결:</strong> <code>gvenzl/oracle-xe:21-slim</code> 구동 시 필수 환경변수(<code>APP_PASSWORD</code>) 누락으로 인한 컨테이너 크래시 분석 및 YAML 설정 보완을 통해 <code>XEPDB1 Pluggable DB</code> 정상 가동 완료.</li>
-                        <li><strong>Docker 캐시/버전 충돌 해결:</strong> 이전 이미지 잔여 메타데이터로 인한 <code>KeyError: 'ContainerConfig'</code> 예외 발생 시, <code>docker-compose down --rmi all --volumes</code> 파이프라인을 통해 충돌 볼륨을 완전 초기화하고 클린 빌드 표준 절차 수립.</li>
-                    </ul>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-title">3. ZTNA 컨트롤러 사용자 계정(User Sync) 연동 검증</div>
-                    <ul>
-                        <li><strong>엔진별 드라이버 및 접속 파라미터 정합성 검증:</strong> SID/Service Name 구분이 필요한 Oracle(<code>xepdb1</code>)부터 스키마·인코딩이 상이한 MS-SQL, MariaDB, PostgreSQL의 컨트롤러 연동 무결성 검증.</li>
-                        <li><strong>계정 동기화 수명 주기(Lifecycle) 테스트:</strong> DBeaver를 활용한 사용자 테이블(<code>tb_user_new</code>) 시드 데이터(Insert/Update/Delete) 조작 후, ZTNA 컨트롤러 인가 정책 및 사용자 목록에 실시간 무결성 반영 여부 확인.</li>
-                    </ul>
-                </div>
-
-                <div class="task-group">
-                    <div class="task-title">4. 성과 및 가치 (Impact)</div>
-                    <ul>
-                        <li>각기 다른 4대 RDBMS 환경을 물리 서버나 개별 VM이 아닌 <strong>단일 호스트 컨테이너화</strong>함으로써 테스트 인프라 리소스 소모 및 환경 셋업 소요 시간 대폭 단축.</li>
-                        <li>고객사별 다양한 기간계 DB 도입 시 발생할 수 있는 드라이버 호환성 및 동기화 누락 이슈를 사전에 100% 차단하는 표준 테스트 시나리오 및 가이드라인 자산화.</li>
-                    </ul>
-                </div>
-            </div>
-
             <div class="card" data-aos="fade-up">
                 <div class="card-header">
                     <div class="job-title">XR 기반 실감형 솔루션 품질 보증 및 최적화</div>
@@ -721,21 +663,21 @@
     <section data-aos="fade-up" data-aos-duration="1000">
         <h2><i class="fas fa-tools"></i>심층 트러블슈팅 사례 (Troubleshooting)</h2>
 
-        <!-- 트러블슈팅 열고 닫는 보라색 버튼 -->
         <button id="toggleTroubleBtn" class="toggle-btn">
             <span>트러블슈팅 사례 보기</span>
             <i class="fas fa-chevron-down"></i>
         </button>
 
-        <!-- 기본 상태는 닫혀 있고(fold-content), 버튼을 누르면 열리는 영역 -->
         <div id="troubleshooting-section" class="fold-content">
+            
+            <!-- [Case 01] WireGuard UDP 대역폭 트러블슈팅 카드 -->
             <div class="card" data-aos="fade-up">
                 <div class="card-header">
                     <div style="margin-bottom: 8px;">
                         <span class="tag-pill primary">Network QA</span>
                         <span class="tag-pill accent">Performance Bottleneck</span>
                     </div>
-                    <div class="job-title">WireGuard VPN 게이트웨이 UDP 대역폭 한계치 검증 및 세션 크래시 예방을 위한 QoS 정책 수립</div>
+                    <div class="job-title">[Case 01] WireGuard VPN 게이트웨이 UDP 대역폭 한계치 검증 및 세션 크래시 예방을 위한 QoS 정책 수립</div>
                 </div>
 
                 <div class="trouble-summary-grid">
@@ -785,6 +727,65 @@
                     </ul>
                 </div>
             </div>
+
+            <!-- [Case 02] Docker 기반 멀티 RDBMS 계정 동기화 트러블슈팅 카드 -->
+            <div class="card" data-aos="fade-up">
+                <div class="card-header">
+                    <div style="margin-bottom: 8px;">
+                        <span class="tag-pill primary">Infra & Virtualization</span>
+                        <span class="tag-pill accent">Docker / Multi-RDBMS</span>
+                    </div>
+                    <div class="job-title">[Case 02] Docker 기반 4대 RDBMS 통합 구축 오류 해결 및 ZTNA 컨트롤러 계정 동기화 무결성 검증</div>
+                </div>
+
+                <div class="trouble-summary-grid">
+                    <div class="trouble-summary-item">
+                        <span>대상 DB 엔진 (4종)</span>
+                        <p>Oracle 21c, MS-SQL 2022, MariaDB 11.4, PostgreSQL 16.3</p>
+                    </div>
+                    <div class="trouble-summary-item">
+                        <span>구축 인프라 & 도구</span>
+                        <p style="color: #836df3;">VMware ESXi (Ubuntu 22.04 VM), Docker Compose, DBeaver</p>
+                    </div>
+                    <div class="trouble-summary-item">
+                        <span>품질 검증 목표</span>
+                        <p style="color: #1a7f37;">고객사 이종 DB별 사용자 계정·조직도 자동 동기화 무결성 확보</p>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">1. 프로젝트 배경 및 테스트 인프라 아키텍처 설계</div>
+                    <ul>
+                        <li>고객사마다 상이한 기간계 DB 환경(Oracle, MS-SQL, MySQL 계열, PostgreSQL)에 대응하기 위해, 단일 VM 환경에서 4대 RDBMS를 격리·운용할 수 있는 통합 테스트베드 필요성 대두</li>
+                        <li><strong>Docker Compose 기반 원스톱 프로비저닝:</strong> VMware ESXi 상의 Ubuntu VM에 <code>docker-compose.yml</code> 파이프라인을 구축하여 포트 포워딩(1521, 1433, 3306, 5432) 및 초기 볼륨을 코드 기반으로 자동화 배포</li>
+                    </ul>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">2. 컨테이너 빌드 트러블슈팅 및 가용성 확보</div>
+                    <ul>
+                        <li><strong>Oracle 컨테이너 구동 실패 해결:</strong> <code>gvenzl/oracle-xe:21-slim</code> 구동 시 필수 환경변수(<code>APP_PASSWORD</code>) 누락으로 인한 컨테이너 크래시 분석 및 YAML 설정 보완을 통해 <code>XEPDB1 Pluggable DB</code> 정상 가동 완료</li>
+                        <li><strong>Docker 캐시/버전 충돌 해결:</strong> 이전 이미지 잔여 메타데이터로 인한 <code>KeyError: 'ContainerConfig'</code> 예외 발생 시, <code>docker-compose down --rmi all --volumes</code> 파이프라인을 통해 충돌 볼륨을 완전 초기화하고 클린 빌드 표준 절차 수립</li>
+                    </ul>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">3. ZTNA 컨트롤러 사용자 계정(User Sync) 연동 검증</div>
+                    <ul>
+                        <li><strong>엔진별 드라이버 및 접속 파라미터 정합성 검증:</strong> SID/Service Name 구분이 필요한 Oracle(<code>xepdb1</code>)부터 스키마·인코딩이 상이한 MS-SQL, MariaDB, PostgreSQL의 컨트롤러 연동 무결성 검증</li>
+                        <li><strong>계정 동기화 수명 주기(Lifecycle) 테스트:</strong> DBeaver를 활용한 사용자 테이블(<code>tb_user_new</code>) 시드 데이터(Insert/Update/Delete) 조작 후, ZTNA 컨트롤러 인가 정책 및 사용자 목록에 실시간 무결성 반영 여부 확인</li>
+                    </ul>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">4. 성과 및 가치 (Impact)</div>
+                    <ul>
+                        <li>각기 다른 4대 RDBMS 환경을 물리 서버나 개별 VM이 아닌 <strong>단일 호스트 컨테이너화</strong>함으로써 테스트 인프라 리소스 소모 및 환경 셋업 소요 시간 대폭 단축</li>
+                        <li>고객사별 다양한 기간계 DB 도입 시 발생할 수 있는 드라이버 호환성 및 동기화 누락 이슈를 사전에 100% 차단하는 표준 테스트 시나리오 및 가이드라인 자산화</li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -907,7 +908,7 @@
             }
         });
 
-        // 2. 트러블슈팅 사례 토글 제어 (누르면 열리고 다시 누르면 닫힘)
+        // 2. 트러블슈팅 사례 토글 제어 (누르면 2개 케이스 동시 오픈)
         const troubleBtn = document.getElementById('toggleTroubleBtn');
         const troubleBtnText = troubleBtn.querySelector('span');
         const troubleSection = document.getElementById('troubleshooting-section');
