@@ -694,32 +694,32 @@
                 <div class="task-group">
                     <div class="task-title">1. 문제 상황 및 검증 배경 (Context & Challenge)</div>
                     <ul>
-                        <li>대규모 트래픽 인입 시 WireGuard VPN 터널 및 게이트웨이의 UDP 실효 처리 한계와 장애 리스크를 사전 파악하기 위한 가용 임계점 측정 필요.</li>
-                        <li><strong>방화벽 인바운드 차단 난관:</strong> 보안 게이트웨이 특성상 외부에서 유입되는 트래픽이 차단되어 일반적인 경로(Windows 클라이언트 ➔ Linux 게이트웨이) 송신 시 <code>Connection timed out</code> 발생 및 측정 불가.</li>
+                        <li>대규모 트래픽 인입 시 WireGuard VPN 터널 및 게이트웨이의 UDP 실효 처리 한계와 장애 리스크를 사전 파악하기 위한 가용 임계점 측정 필요</li>
+                        <li><strong>방화벽 인바운드 차단 난관:</strong> 보안 게이트웨이 특성상 외부에서 유입되는 트래픽이 차단되어 일반적인 경로(Windows 클라이언트 ➔ Linux 게이트웨이) 송신 시 <code>Connection timed out</code> 발생 및 측정 불가</li>
                     </ul>
                 </div>
 
                 <div class="task-group">
                     <div class="task-title">2. 해결 전략 및 테스트베드 설계 (Strategy)</div>
                     <ul>
-                        <li><strong>역방향 타격(Reverse Role) 모델 설계:</strong> 아웃바운드 허용 정책을 활용해 Windows PC를 수신 서버(<code>-s</code>)로 열고, Linux 게이트웨이에서 역방향으로 송신(<code>-c</code>)하도록 역할을 반전시켜 방화벽 제약을 우회하고 순수 터널링 대역폭 계측 환경 구축.</li>
-                        <li><strong>점진적 가압 시나리오 수립:</strong> 시스템 마비를 방지하기 위해 3단계(50M~100M Baseline ➔ 300M~800M 임계점 추적 ➔ 1G 스트레스)로 부하를 점진적으로 주입.</li>
+                        <li><strong>역방향 타격(Reverse Role) 모델 설계:</strong> 아웃바운드 허용 정책을 활용해 Windows PC를 수신 서버(<code>-s</code>)로 열고, Linux 게이트웨이에서 역방향으로 송신(<code>-c</code>)하도록 역할을 반전시켜 방화벽 제약을 우회하고 순수 터널링 대역폭 계측 환경 구축</li>
+                        <li><strong>점진적 가압 시나리오 수립:</strong> 시스템 마비를 방지하기 위해 3단계(50M~100M Baseline ➔ 300M~800M 임계점 추적 ➔ 1G 스트레스)로 부하를 점진적으로 주입</li>
                     </ul>
                 </div>
 
                 <div class="task-group">
                     <div class="task-title">3. 심층 분석 및 병목 원인 규명 (Root Cause)</div>
                     <ul>
-                        <li><strong>Throughput Ceiling 식별:</strong> 송신 대역폭을 300M에서 1G까지 증설해도 수신 Bitrate는 <strong>204Mbps 구간에서 정체(Bottleneck Wall)</strong>되는 물리적 처리 한계점 포착.</li>
-                        <li><strong>장비 크래시 결함 현상 재현:</strong> 한계치 초과 유입 시 패킷 유실률이 <strong>최대 79% 이상</strong> 치솟으며, 800M~1G 구간에서 수신 처리량 완전 마비(<code>0.00 bits/sec</code>) 및 세션 거부로 터널이 다운되는 결함 증상 입증.</li>
+                        <li><strong>Throughput Ceiling 식별:</strong> 송신 대역폭을 300M에서 1G까지 증설해도 수신 Bitrate는 <strong>204Mbps 구간에서 정체(Bottleneck Wall)</strong>되는 물리적 처리 한계점 포착</li>
+                        <li><strong>장비 크래시 결함 현상 재현:</strong> 한계치 초과 유입 시 패킷 유실률이 <strong>최대 79% 이상</strong> 치솟으며, 800M~1G 구간에서 수신 처리량 완전 마비(<code>0.00 bits/sec</code>) 및 세션 거부로 터널이 다운되는 결함 증상 입증</li>
                     </ul>
                 </div>
 
                 <div class="task-group">
                     <div class="task-title">4. 조치 및 엔지니어링 임팩트 (Resolution & Impact)</div>
                     <ul>
-                        <li><strong>QoS 대역폭 상한선 가이드 수립:</strong> 게이트웨이 가용 한계치(204Mbps)의 70~80% 수준인 <strong>150Mbps QoS 상한선</strong>을 공식 제안하여 급격한 트래픽 스파이크에도 터널이 강제 다운되지 않도록 인프라 안전 마진 확보.</li>
-                        <li><strong>운영 및 테스트 표준화 가이드 자산화:</strong> Windows 공용/개인 방화벽 필수 예외 처리 절차 및 테스트 중 프로세스 행(Hang) 발생 시 강제 종료/세션 복구(<code>sudo pkill -9 iperf3</code>) 대응 매뉴얼 문서화 공유.</li>
+                        <li><strong>QoS 대역폭 상한선 가이드 수립:</strong> 게이트웨이 가용 한계치(204Mbps)의 70~80% 수준인 <strong>150Mbps QoS 상한선</strong>을 공식 제안하여 급격한 트래픽 스파이크에도 터널이 강제 다운되지 않도록 인프라 안전 마진 확보</li>
+                        <li><strong>운영 및 테스트 표준화 가이드 자산화:</strong> Windows 공용/개인 방화벽 필수 예외 처리 절차 및 테스트 중 프로세스 행(Hang) 발생 시 강제 종료/세션 복구(<code>sudo pkill -9 iperf3</code>) 대응 매뉴얼 문서화 공유</li>
                     </ul>
                 </div>
             </div>
