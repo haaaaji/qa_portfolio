@@ -785,6 +785,73 @@
                     </ul>
                 </div>
             </div>
+            
+            <!-- [Case 03] 글로벌 분산 Locust 기반 CDN 대용량 파일 부하 테스트 -->
+            <div class="card" data-aos="fade-up">
+                <div class="card-header">
+                    <div style="margin-bottom: 8px;">
+                        <span class="tag-pill primary">Performance QA</span>
+                        <span class="tag-pill accent">Distributed Load Test</span>
+                    </div>
+                    <div class="job-title">[Case 03] AWS 크로스 리전(한국-미국) Locust 분산 클러스터 구축 및 180MB+ 대용량 바이너리 다운로드 부하 최적화</div>
+                </div>
+
+                <div class="trouble-summary-grid">
+                    <div class="trouble-summary-item">
+                        <span>도구 & 인프라</span>
+                        <p>Locust v2.43.3, Python 3.11, AWS Multi-Region</p>
+                    </div>
+                    <div class="trouble-summary-item">
+                        <span>부하 규모 (Target)</span>
+                        <p style="color: #cf222e;">VUser 1,000명 / 8개 Worker 프로세스 / 대용량 파일 스트리밍</p>
+                    </div>
+                    <div class="trouble-summary-item">
+                        <span>품질 보증 결과 (Impact)</span>
+                        <p style="color: #1a7f37;">워커 메모리 OOM 방어 & 프로세스 하트비트 유지 (2h 완주)</p>
+                    </div>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">1. 문제 상황 및 검증 배경 (Context & Challenge)</div>
+                    <ul>
+                        <li><strong>글로벌 CDN 엔드포인트 대상 부하 검증:</strong> 실제 서비스 인입 환경(해외 리전)을 모사하여 1,000명의 동시 사용자가 180MB+ 규모의 패키지 바이너리를 다운로드할 때의 인프라 임계치 계측 필요</li>
+                        <li><strong>단일 인젝터 장비의 자원 한계:</strong> 대용량 파일 동시 요청 시 로컬 부하 발생 장비의 CPU/메모리 고갈로 Locust 워커의 하트비트(Heartbeat) 유실 및 마스터 세션 단절 위험 발생</li>
+                        <li><strong>레거시 환경 의존성 충돌:</strong> 기존 OS 기본 파이썬 버전(3.9 이하)에서 최신 Locust(v2.43.3) 구동이 불가능하여 시스템 영향 없는 독립 런타임 분리 필요</li>
+                    </ul>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">2. 해결 전략 및 분산 인프라 아키텍처 (Strategy)</div>
+                    <ul>
+                        <li><strong>AWS 크로스 리전 Master-Worker 클러스터 구축:</strong>
+                            <ul>
+                                <li><strong>Master (Seoul Region):</strong> 8089(웹 모니터링 콘솔), 5557(인바운드 분산 제어 통신) 포트를 바인딩하여 테스트 지휘 및 집계 전담</li>
+                                <li><strong>Worker (US West Region):</strong> 대상 호스트(<code>https://cdn-gateway.example.com</code>) 타겟팅 및 <code>--processes 8</code> 옵션으로 멀티프로세스를 확장해 1,000명 규모의 트래픽을 안전하게 분산 생성</li>
+                            </ul>
+                        </li>
+                        <li><strong>Python 3.11 가상환경 Side-by-Side 격리:</strong> 마스터 서버의 시스템 패키지 오염을 방지하기 위해 <code>deadsnakes PPA</code> 기반 Python 3.11 전용 가상환경을 독립 구성하여 최신 Locust 구동 환경 확보</li>
+                        <li><strong>점진적 가압(Spawn Rate) 전략 적용:</strong> 급격한 트래픽 스파이크로 인한 워커 CPU 급증을 방지하기 위해 스폰 레이트를 <code>0.2</code>(초당 0.2명 주입, 5초당 1명)로 정밀 튜닝하여 2시간 장기 내구 테스트 설계</li>
+                    </ul>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">3. 트러블슈팅 및 스크립트 최적화 (Troubleshooting & Root Cause)</div>
+                    <ul>
+                        <li><strong>워커 메모리 OOM(Out of Memory) 방지를 위한 청크 스트리밍 도입:</strong>
+                            180MB 이상의 대용량 파일을 일시에 메모리에 적재하는 기존 방식을 탈피하고, <code>stream=True</code> 설정 및 <strong>8KB 청크 단위 순회(<code>chunk_size=8192</code>)</strong> 파이프라인을 구축하여 수천 번의 동시 다운로드 중에도 워커 인스턴스의 메모리 점유율을 안정적으로 방어</li>
+                        <li><strong>과도한 RPS 유입으로 인한 인프라 병목 튜닝:</strong>
+                            초기 <code>wait_time = between(0.1, 0.5)</code> 설정 시 타겟 게이트웨이 측 세션 인입 병목 및 패킷 지연이 관측되어, 실 사용자 다운로드 패턴에 부합하는 <code>between(1.0, 3.0)</code>으로 인터벌을 조정하여 안정적인 유효 처리량 확보</li>
+                    </ul>
+                </div>
+
+                <div class="task-group">
+                    <div class="task-title">4. 성과 및 가치 (Impact)</div>
+                    <ul>
+                        <li>크로스 리전 분산 부하 테스트 환경을 정립하여 해외 인입 트래픽에 대한 객관적인 CDN 전송 안정성 및 네트워크 처리 한계 지표 도출</li>
+                        <li>프로세스 분산 및 청크 스트리밍 최적화로 워커 노드의 리소스 고갈 없이 1,000 VUser 대상 2시간 장기 부하 테스트를 결함 없이 완주</li>
+                    </ul>
+                </div>
+            </div>
 
         </div>
     </section>
